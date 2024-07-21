@@ -24,7 +24,7 @@ export default function Home() {
           <span className="text-gray-400 dark:text-gray-500">test4</span>
         </div> */}
         <input className="w-full rounded-full h-10 bg-gray-200 pl-5 py-3 outline-none ring ring-transparent focus:ring-orange-400 ring-offset-2 transition-shadow placeholder:text-orange-400" type="text" placeholder="Search here...." />
-        <button className="bg-black text-white rounded-full active:scale-90 transition-transform py-2 font-medium focus:scale-90 outline-none">Search</button>
+        <button className="bg-gradient-to-tr from-cyan-500 via-yellow-400 to-purple-400 text-white rounded-full active:scale-90 transition-transform py-2 font-medium focus:scale-90 outline-none">Search</button>
       </div>
     </main>
   );
