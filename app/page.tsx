@@ -23,8 +23,9 @@ export default function Home() {
           <span>test3</span>
           <span className="text-gray-400 dark:text-gray-500">test4</span>
         </div> */}
-        <input required className="w-full rounded-full h-10 bg-gray-200 pl-5 py-3 outline-none ring ring-transparent focus:ring-orange-400 ring-offset-2 transition-shadow placeholder:text-orange-400 invalid:focus:bg-red-100" type="email" placeholder="Search here...." />
-        <button className="bg-gradient-to-tr from-cyan-500 via-yellow-400 to-purple-400 text-white rounded-full active:scale-90 transition-transform py-2 font-medium focus:scale-90 outline-none ">Search</button>
+        <input required className="w-full rounded-full h-10 bg-gray-200 pl-5 py-3 outline-none ring ring-transparent focus:ring-orange-400 ring-offset-2 transition-shadow placeholder:text-orange-400 invalid:focus:bg-red-100 peer" type="email" placeholder="Search here...." />
+        <span className="hidden text-red-400 peer-invalid:block">이메일 적어라</span>
+        <button className="bg-gradient-to-tr from-cyan-500 via-yellow-400 to-purple-400 text-white rounded-full active:scale-90 transition-transform py-2 font-medium focus:scale-90 outline-none  peer-invalid:bg-slate-600">Search</button>
       </div>
     </main>
   );
