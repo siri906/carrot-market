@@ -1,8 +1,8 @@
 export default function Home() {
   return (
     <main className="bg-gray-100 h-screen flex items-center justify-center p-5 dark:bg-gray-700">
-      <div className="bg-white w-full shadow-lg p-5 rounded-3xl max-w-screen-sm dark:bg-gray-600">
-        <div className="flex justify-between items-center">
+      <div className="bg-white w-full shadow-lg p-5 rounded-3xl max-w-screen-sm dark:bg-gray-600 flex flex-col gap-2">
+        {/* <div className="flex justify-between items-center">
           <div className="flex flex-col">
             <span className="text-gray-700 font-semibold -mb-2 dark:text-gray-300">In transit</span>
             <span className="text-4xl font-semibold dark:text-white">Cool blue</span>
@@ -22,7 +22,9 @@ export default function Home() {
           <span>test2</span>
           <span>test3</span>
           <span className="text-gray-400 dark:text-gray-500">test4</span>
-        </div>
+        </div> */}
+        <input className="w-full rounded-full h-10 bg-gray-200 pl-5 py-3 outline-none ring ring-transparent focus:ring-orange-400 ring-offset-2 transition-shadow placeholder:text-orange-400" type="text" placeholder="Search here...." />
+        <button className="bg-black text-white rounded-full active:scale-90 transition-transform py-2 font-medium focus:scale-90 outline-none">Search</button>
       </div>
     </main>
   );
