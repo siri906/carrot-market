@@ -1,6 +1,6 @@
 export default function Home() {
   return (
-    <main className="bg-gray-100 h-screen flex items-center justify-center p-5 dark:bg-gray-700">
+    <main className="bg-gray-100 h-screen flex items-center justify-center p-5 sm:bg-red-200 ">
       <div className="bg-white w-full shadow-lg p-5 rounded-3xl max-w-screen-sm dark:bg-gray-600 flex flex-col gap-2">
         {/* <div className="flex justify-between items-center">
           <div className="flex flex-col">
