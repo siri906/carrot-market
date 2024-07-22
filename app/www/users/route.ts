@@ -1,6 +1,7 @@
 // www 이란 폴더 명은 임의로 정한 폴더명이다.
 //route 는 ui 를 랜더링 하지 않는다
 //파일명 route는 중요하다
+//이거는 한물간 방법이라고 한다.
 
 import { NextRequest } from "next/server";
 

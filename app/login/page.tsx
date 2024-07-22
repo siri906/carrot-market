@@ -1,19 +1,12 @@
-"use client";
-
 import FormButton from "@/components/form-btn";
 import FormInput from "@/components/form-input";
 import SocialLogin from "@/components/social-login";
 
 export default function Login() {
-  const onClick = async () => {
-    const res = await fetch("www/users", {
-      method: "POST",
-      body: JSON.stringify({
-        username: "test",
-        password: "1234",
-      }),
-    });
-    console.log(await res.json());
+  const onSubmit = async (formData: FormData) => {
+    "use server"; //이건 서버에서만 동작하도록 함
+    console.log("server!!!");
+    console.log(formData.get("email"), formData.get("password"));
   };
   return (
     <div className="flex flex-col gap-10 py-8 px-6">
@@ -22,13 +15,11 @@ export default function Login() {
         <h2 className="text-xl">Login with email and pass</h2>
       </div>
       <div>
-        <form className="flex flex-col gap-3">
-          <FormInput type="email" placeholder="Email" required errors={[]} />
-          <FormInput type="password" placeholder="password" required errors={[]} />
-        </form>
-        <span onClick={onClick}>
+        <form action={onSubmit} className="flex flex-col gap-3">
+          <FormInput name="email" type="email" placeholder="Email" required errors={[]} />
+          <FormInput name="password" type="password" placeholder="password" required errors={[]} />
           <FormButton loading={false} text="Login" />
-        </span>
+        </form>
       </div>
       <SocialLogin />
     </div>
