@@ -5,8 +5,13 @@ import Input from "@/components/form-input";
 import { useFormState } from "react-dom";
 import { smsLogin } from "./action";
 
+const initialState = {
+  token: false,
+  error: undefined,
+};
+
 export default function SMSLogin() {
-  const [state, dispatch] = useFormState(smsLogin, null);
+  const [state, dispatch] = useFormState(smsLogin, initialState);
 
   return (
     <div className="flex flex-col gap-10 py-8 px-6">
@@ -16,9 +21,8 @@ export default function SMSLogin() {
       </div>
       <div>
         <form action={dispatch} className="flex flex-col gap-3">
-          <Input name="phone" type="number" placeholder="phoneNumber" required errors={[]} />
-          <Input name="token" type="number" placeholder="Verification Code" required errors={[]} />
-          <Button loading={false} text="Verify" />
+          {state.token ? <Input name="token" type="number" placeholder="Verification Code" required errors={state.error?.formErrors} /> : <Input name="phone" type="number" placeholder="phoneNumber" required errors={state.error?.formErrors} />}
+          <Button loading={false} text={state.token ? "Verify token" : "send sms"} />
         </form>
       </div>
     </div>

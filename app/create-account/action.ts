@@ -1,10 +1,41 @@
 "use server";
+import bcrypt from "bcrypt";
+import db from "@/lib/db";
 import { z } from "zod";
+import { getIronSession } from "iron-session";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 const passwordRegex = new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).+$/);
 
 // const usernameSchema = z.string().min(5).max(10);
 const checkUsername = (username: string) => !username.includes("test");
+
+const checkUniqueUsername = async (username: string) => {
+  //check if username is taken
+  const user = await db.user.findUnique({
+    where: {
+      username,
+    },
+    // 일치하는 값중에서 특정 col값만 가져오겠다
+    select: {
+      id: true,
+    },
+  });
+  return !Boolean(user);
+};
+
+const checkUniqueEmail = async (email: string) => {
+  const userEmail = await db.user.findUnique({
+    where: {
+      email,
+    },
+    select: {
+      email: true,
+    },
+  });
+  return !Boolean(userEmail);
+};
 
 const formSchema = z
   .object({
@@ -13,14 +44,18 @@ const formSchema = z
         invalid_type_error: "username must be string",
         required_error: "where is my username? ",
       })
-      .min(5, "username is too short")
+      .min(1, "username is too short")
       .max(10, "username is too long")
       // transform 아예 값을 넘겨줌 변환된 값을 넘겨줄 수 있음, 애는 꼭 뭔가 return을 해줘야함
-      .transform((username) => `🔥 ${username}`)
+      // .transform((username) => `🔥 ${username}`)
+      // .transform((username) => `${username}`)
       //refine 값에 따라 참 거짓을 넘겨줌
-      .refine(checkUsername, "test noeno"),
-    email: z.string().email().toLowerCase(),
-    password: z.string().regex(passwordRegex, "At least one uppercase letter, one lowercase letter, one number and one special character"),
+      .refine(checkUsername, "test noeno")
+      .refine(checkUniqueUsername, "username already taken"),
+
+    email: z.string().email().toLowerCase().refine(checkUniqueEmail, "email already taken"),
+    // password: z.string().regex(passwordRegex, "At least one uppercase letter, one lowercase letter, one number and one special character"),
+    password: z.string(),
     confirmPassword: z.string(),
   })
   // 괄호로 하는 이유는 하단 메시지가 어디에 나타나야하는지 알아야하기 떄문에 저런식으로 나타냄 path 는 오류가 나타나야 할 곳
@@ -53,7 +88,7 @@ export async function createAccount(prevState: any, formData: FormData) {
   //   데이터가 유효한 경우 true값의 success와 데이터 정보가 담긴 data를 반환합니다.
   // 유효하지 않은 경우에는 false값의 success와 에러 정보가 담긴 error를 반환합니다.
 
-  const result = formSchema.safeParse(data);
+  const result = await formSchema.safeParseAsync(data);
   console.log("result", result);
   if (!result.success) {
     // flatten: 에러를 보다 쉽게 관리 할 수 있게 해줌
@@ -61,5 +96,32 @@ export async function createAccount(prevState: any, formData: FormData) {
     return result.error.flatten();
   } else {
     console.log("result.data", result.data);
+    //check if email already used
+    //hash password
+    // 해싱이란  입력값을 못생기게 만드는 거다,(알수없게) 해시 함수는 단방향이다
+    // 해싱을 한번만 하는게 아님 (원하는 만큼)
+    //  암호화는 양방향이 가능하다
+    //참고 url https://youtu.be/67UwxR3ts2E?si=2pqx4IUADxyAzoUj
+    const hashedPassword = await bcrypt.hash(result.data.password, 12);
+    console.log(hashedPassword);
+    //save user db
+    const user = await db.user.create({
+      data: {
+        username: result.data.username,
+        email: result.data.email,
+        password: hashedPassword,
+      },
+      select: {
+        id: true,
+      },
+    });
+    //log the user in (세션 쿠키 관련 url https://www.youtube.com/watch?v=tosLBcAX1vk)
+    const cookie = await getIronSession(cookies(), { cookieName: "carrot", password: process.env.COOKIE_PASSWORD! });
+    //@ts-ignore
+    cookie.id = user.id;
+    await cookie.save();
+
+    redirect("/profile");
+    // redireact "/home"
   }
 }
