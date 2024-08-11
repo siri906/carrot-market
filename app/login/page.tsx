@@ -18,8 +18,8 @@ export default function Login() {
       </div>
       <div>
         <form action={formAction} className="flex flex-col gap-3">
-          <Input name="email" type="email" placeholder="Email" required />
-          <Input name="password" type="password" placeholder="password" required />
+          <Input name="email" type="email" placeholder="Email" required errors={state?.fieldErrors.email} />
+          <Input name="password" type="password" placeholder="password" required errors={state?.fieldErrors.password} />
           <Button text="Login" />
         </form>
       </div>
