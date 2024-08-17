@@ -18,7 +18,7 @@ import { faker } from "@faker-js/faker";
         created_at: new Date(),
         user: {
           connect: {
-            id: 1,
+            id: 2,
           },
         },
       },

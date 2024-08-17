@@ -35,7 +35,7 @@ export default function AddProduct() {
         <input onChange={onImageChange} type="file" id="photo" name="photo" accept="image/*" className="hidden" />
         <Input name="title" required placeholder="제목" type="text" />
         <Input name="price" type="number" required placeholder="가격" />
-        <Input name="description" type="text" required placeholder="자세한 설명" />
+        <Input name="desc" type="text" required placeholder="자세한 설명" />
         <Button text="작성 완료" />
       </form>
     </div>
