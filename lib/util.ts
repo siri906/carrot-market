@@ -11,5 +11,5 @@ export function formatToTimeAgo(date: string): string {
   return formatter.format(diff, "days");
 }
 export function formatToWon(price: number) {
-  return price.toLocaleString("ko-KR");
+  return Number(price).toLocaleString("ko-KR");
 }

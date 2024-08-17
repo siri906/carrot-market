@@ -1,4 +1,4 @@
-import { formatToTimeAgo, formatTotimeAgo, formatToWon } from "@/lib/util";
+import { formatToTimeAgo, formatToWon } from "@/lib/util";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import Image from "next/image";
 import Link from "next/link";
