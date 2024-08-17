@@ -24,11 +24,26 @@ model User {
   created_at DateTime   @default(now())
   updated_at DateTime   @updatedAt
   SMSToken   SMSToken[]
+  Product    Product[]
 }
 
 model SMSToken {
   id         Int      @id @default(autoincrement())
   token      String   @unique
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // 실제 db에서 저장 되는 값은 userId이다
+  userId     Int
+}
+
+model Product {
+  id    Int    @id @default(autoincrement())
+  title String
+  price String
+  desc  String
+  photo String
+
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
