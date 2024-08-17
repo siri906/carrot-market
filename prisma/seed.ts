@@ -8,7 +8,7 @@ import { faker } from "@faker-js/faker";
 // const prisma = new PrismaClient();
 
 (async () => {
-  for (let i = 0; i < 80; i++) {
+  for (let i = 0; i < 20; i++) {
     await db.product.create({
       data: {
         price: +faker.commerce.price({ min: 10000, max: 1000000 }),
