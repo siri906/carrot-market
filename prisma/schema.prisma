@@ -23,8 +23,11 @@ model User {
   avatar     String?
   created_at DateTime   @default(now())
   updated_at DateTime   @updatedAt
-  SMSToken   SMSToken[]
-  Product    Product[]
+  tokens     SMSToken[]
+  products   Product[]
+  post       Post[]
+  comment    Comment[]
+  Like       Like[]
 }
 
 model SMSToken {
@@ -47,6 +50,49 @@ model Product {
   updated_at DateTime @updatedAt
   user       User     @relation(fields: [userId], references: [id])
   userId     Int
+}
+
+model Post {
+  id    Int     @id @default(autoincrement())
+  title String
+  desc  String?
+
+  view       Int      @default(0)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  user     User      @relation(fields: [userId], references: [id])
+  userId   Int
+  comments Comment[]
+  likes    Like[]
+}
+
+model Comment {
+  id      Int    @id @default(autoincrement())
+  payload String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  PostId Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  userId Int
+  postId Int
+}
+
+model Like {
+  //좋아요는 중복이 되면 안된다 
+  //좋아요의 id는 userid 와 postId의 조합으로 만들어 진다 
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post   Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  userId Int
+  postId Int
+
+  @@id(name: "id", [userId, postId])
 }
 
 // 스키마 수정하고 항상 마이그레이션해야됨  (db에 어떻게 변화 했는지 알려주기)
