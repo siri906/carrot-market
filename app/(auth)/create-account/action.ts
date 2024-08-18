@@ -55,6 +55,7 @@ const formSchema = z
 
     // email: z.string().email().toLowerCase().refine(checkUniqueEmail, "email already taken"),
     // password: z.string().regex(passwordRegex, "At least one uppercase letter, one lowercase letter, one number and one special character"),
+    email: z.string(),
     password: z.string(),
     confirmPassword: z.string(),
   })
